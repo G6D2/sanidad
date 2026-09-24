@@ -375,8 +375,11 @@ footer p{margin:0;max-width:78ch}
     }
     function ciBlock(){
       const C = E.ci; const n = na(C); if (n) return n;
-      return `<dl class="kv">${C.map(r => `<div><dt>${esc(r.repo)}</dt><dd class="mono ${r.rojos ? "bad" : ""}">${r.rojos} de ${r.total}</dd></div>`).join("")}</dl>` +
-        (C.some(r => r.ultimoRojo) ? `<div class="msgs">${C.filter(r => r.ultimoRojo).map(r => `<div><a href="${esc(r.ultimoRojo.url)}" target="_blank" rel="noopener">${esc(r.repo)}: ${esc(r.ultimoRojo.title)}</a><span>${esc(ago(r.ultimoRojo.at))}</span></div>`).join("")}</div>` : '<span class="good">Sin pipelines en rojo</span>');
+      const rows = C.map(r => `<div><dt>${esc(r.repo)} · main</dt><dd class="mono ${r.rojos ? "bad" : ""}">${r.rojos} de ${r.total}</dd></div>` +
+        (r.prTotal != null ? `<div><dt>${esc(r.repo)} · PRs</dt><dd class="mono ${r.prRojos ? "bad" : ""}">${r.prRojos} de ${r.prTotal}</dd></div>` : "")).join("");
+      const reds = C.flatMap(r => [r.ultimoRojo && {...r.ultimoRojo, repo: r.repo}, r.ultimoRojoPr && {...r.ultimoRojoPr, repo: r.repo}]).filter(Boolean);
+      const msgs = reds.length ? `<div class="msgs">${reds.map(x => `<div><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.repo)}: ${esc(x.title)}</a><span>${esc(ago(x.at))}</span></div>`).join("")}</div>` : '<span class="good">Sin pipelines en rojo</span>';
+      return `<dl class="kv">${rows}</dl>${msgs}`;
     }
     box.innerHTML = `<div><h3>Logs de error</h3>${logsBlock()}</div><div><h3>Chequeos de salud</h3>${chequeosBlock()}</div><div><h3>Outbox</h3>${outboxBlock()}</div><div><h3>CI / CD en rojo (7 días)</h3>${ciBlock()}</div>`;
   }

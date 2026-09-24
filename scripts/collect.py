@@ -218,8 +218,15 @@ if os.environ.get("GH_READ_TOKEN"):
                     pipelines.append({"repo": label, "kind": kind, "conclusion": run["conclusion"] or run["status"],
                                       "at": run["createdAt"], "url": run["url"]})
             red = [x for x in runs if x["conclusion"] == "failure"]
-            ci.append({"repo": label, "total": len(runs), "rojos": len(red),
-                       "ultimoRojo": {"at": red[0]["createdAt"], "title": red[0]["displayTitle"], "url": red[0]["url"]} if red else None})
+            # CI de pull requests (todas las ramas), para ver fallas antes de llegar a main
+            r2 = subprocess.run(["gh", "run", "list", "-R", repo, "--event", "pull_request", "--created", ">=" + since,
+                                 "--limit", "200", "--json", "displayTitle,conclusion,createdAt,url"],
+                                capture_output=True, text=True, timeout=60, env=env)
+            prs = [x for x in json.loads(r2.stdout or "[]") if x["displayTitle"].startswith("CI ")]
+            pr_red = [x for x in prs if x["conclusion"] == "failure"]
+            last = lambda xs: {"at": xs[0]["createdAt"], "title": xs[0]["displayTitle"], "url": xs[0]["url"]} if xs else None
+            ci.append({"repo": label, "total": len(runs), "rojos": len(red), "ultimoRojo": last(red),
+                       "prTotal": len(prs), "prRojos": len(pr_red), "ultimoRojoPr": last(pr_red)})
         errors["ci"] = ci
     except Exception as e:
         errors["ci"] = {"error": f"no disponible ({type(e).__name__})"}
