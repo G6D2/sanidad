@@ -202,8 +202,8 @@ footer p{margin:0;max-width:78ch}
   </section>
 
   <footer>
-    <p>Generado por GitHub Actions (<a href="https://github.com/G6D2/sanidad" target="_blank" rel="noopener">G6D2/sanidad</a>) cada 15 minutos en horario de clase y demos, o a mano desde el workflow. Solo lecturas; la página se actualiza sola cada minuto.</p>
-    <p>Backend y frontend corren en el plan free de Render (750 h/mes compartidas), por eso no se chequean las 24 h. Monitoreo continuo: <a href="https://citypass-emergencias-g6.betteruptime.com" target="_blank" rel="noopener">status page de Better Stack</a>.</p>
+    <p>Generado por GitHub Actions (<a href="https://github.com/G6D2/sanidad" target="_blank" rel="noopener">G6D2/sanidad</a>) cada 15 minutos (o a mano desde el workflow). Solo lecturas; la página se actualiza sola cada minuto.</p>
+    <p>Backend y frontend corren en el plan free de Render (750 h/mes compartidas). Monitoreo continuo también en la <a href="https://citypass-emergencias-g6.betteruptime.com" target="_blank" rel="noopener">status page de Better Stack</a>.</p>
   </footer>
 </div>
 
@@ -240,7 +240,7 @@ footer p{margin:0;max-width:78ch}
     fresh.textContent = "Datos " + ago(latest.generatedAt) + " · " + new Date(latest.generatedAt).toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
     fresh.classList.toggle("stale", mins > 60);
     const n = $("notice");
-    if (mins > 60){ n.hidden = false; n.className = "notice warn"; n.textContent = "Estos datos tienen más de una hora: fuera del horario de monitoreo (jueves de clase y demos) el chequeo no corre. Para forzar uno, ejecutá el workflow «Chequeo de salud» en GitHub."; }
+    if (mins > 60){ n.hidden = false; n.className = "notice warn"; n.textContent = "Estos datos tienen más de una hora: el chequeo corre cada 15 minutos, así que puede haberse atrasado o fallado. Para forzar uno, ejecutá el workflow «Chequeo de salud» en GitHub."; }
     else n.hidden = true;
   }
 

@@ -1,13 +1,11 @@
 name: Chequeo de salud
 
-# Cada 15 minutos en la ventana de clase (jueves 17:00–23:59 ART = jue 20:00 – vie 02:59 UTC).
-# Fuera de esa ventana no corre para no gastar las 750 h/mes del plan free de Render:
-# para una demo, ejecutarlo a mano desde Actions → "Chequeo de salud" → Run workflow.
+# Cada 15 minutos, todo el día. Ojo: cada chequeo despierta backend y frontend en Render
+# (plan free, 750 h/mes compartidas); para volver a la ventana de clase, restaurar el cron de jueves.
 # Los crons de GitHub son "best effort": pueden atrasarse unos minutos.
 on:
   schedule:
-    - cron: '7,22,37,52 20-23 * * 4'
-    - cron: '7,22,37,52 0-2 * * 5'
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
 
 permissions:
