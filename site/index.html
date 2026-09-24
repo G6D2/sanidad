@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sanidad CityPass+ Emergencias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EEF1F4; --panel:#FFFFFF; --ink:#132030; --ink-2:#4A5A6B; --ink-3:#7A8898;
+  --line:#D6DDE4; --line-2:#E6EBF0; --accent:#0B4AA2; --accent-soft:#E3ECF8;
+  --ok:#1C8454; --ok-soft:#DDF2E7; --warn:#B7790A; --warn-soft:#FBEFD6;
+  --crit:#C2302A; --crit-soft:#FBE1DF; --idle:#A9B4BF; --idle-soft:#E9EDF1;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C1219; --panel:#131C26; --ink:#E4EBF2; --ink-2:#A5B3C1; --ink-3:#7C8B9A;
+    --line:#243140; --line-2:#1C2733; --accent:#7AA9EE; --accent-soft:#16283F;
+    --ok:#3FBF83; --ok-soft:#113424; --warn:#E3A93A; --warn-soft:#3A2C10;
+    --crit:#F0675F; --crit-soft:#3D1715; --idle:#4C5B6A; --idle-soft:#1B2530;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C1219; --panel:#131C26; --ink:#E4EBF2; --ink-2:#A5B3C1; --ink-3:#7C8B9A;
+  --line:#243140; --line-2:#1C2733; --accent:#7AA9EE; --accent-soft:#16283F;
+  --ok:#3FBF83; --ok-soft:#113424; --warn:#E3A93A; --warn-soft:#3A2C10;
+  --crit:#F0675F; --crit-soft:#3D1715; --idle:#4C5B6A; --idle-soft:#1B2530;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 var(--body);margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:28px 48px;display:flex;flex-direction:column;gap:22px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:500 12px/1 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+
+/* Encabezado */
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+h1{font:700 clamp(30px,5vw,44px)/1 var(--display);letter-spacing:.01em;margin:6px 0 0;text-wrap:balance}
+.state{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:999px;font:600 14px/1 var(--body);background:var(--idle-soft);color:var(--ink-2)}
+.pill i{width:9px;height:9px;border-radius:50%;background:currentColor;display:block}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.crit{background:var(--crit-soft);color:var(--crit)}
+.fresh{font-size:13px;color:var(--ink-2)}
+.fresh.stale{color:var(--warn);font-weight:500}
+.notice{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;color:var(--ink-2);font-size:14px}
+.notice.warn{border-color:var(--warn);background:var(--warn-soft);color:var(--ink)}
+
+/* Paneles */
+section.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.panel-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--line-2)}
+h2{font:600 22px/1.1 var(--display);letter-spacing:.02em;margin:0}
+.panel-h small{color:var(--ink-3);font-size:12.5px}
+
+/* Servicios */
+.svc{display:grid;grid-template-columns:minmax(0,2.2fr) 110px 90px minmax(0,1.6fr);gap:18px;align-items:center;padding:14px 18px;border-top:1px solid var(--line-2)}
+.svc:first-of-type{border-top:0}
+.svc-head{padding-block:10px;background:var(--ground)}
+.svc-name{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.dot{flex:none;width:12px;height:12px;border-radius:50%;margin-top:5px;background:var(--idle);box-shadow:0 0 0 4px var(--idle-soft)}
+.dot.ok{background:var(--ok);box-shadow:0 0 0 4px var(--ok-soft)} .dot.warn{background:var(--warn);box-shadow:0 0 0 4px var(--warn-soft)} .dot.crit{background:var(--crit);box-shadow:0 0 0 4px var(--crit-soft)}
+.svc-name b{display:block;font-weight:600}
+.svc-name span{display:block;font-size:12px;color:var(--ink-3);overflow-wrap:anywhere}
+.num{font:600 24px/1 var(--display);font-variant-numeric:tabular-nums}
+.num small{font:500 12px var(--body);color:var(--ink-3);margin-left:2px}
+.num.ok{color:var(--ok)} .num.warn{color:var(--warn)} .num.crit{color:var(--crit)}
+.sub{display:block;font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.strip{display:grid;grid-template-columns:repeat(30,1fr);gap:2px;height:26px}
+.strip i{border-radius:2px;background:var(--idle-soft)}
+.strip i.operational{background:var(--ok)} .strip i.degraded{background:var(--warn)} .strip i.downtime{background:var(--crit)} .strip i.maintenance{background:var(--accent)}
+.strip i.no_data{background:var(--idle-soft);box-shadow:inset 0 0 0 1px var(--line)} .strip i.not_created{background:transparent;box-shadow:inset 0 0 0 1px var(--line-2)}
+.strip i{cursor:help}
+.strip-legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 18px 14px;border-top:1px solid var(--line-2);font-size:12px;color:var(--ink-3)}
+.strip-legend span{display:inline-flex;align-items:center;gap:6px}
+.strip-legend i{width:10px;height:10px;border-radius:2px;display:block}
+.strip-cap{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin-top:4px}
+
+/* Tendencia */
+.trend{padding:16px 18px 12px}
+.plot{position:relative}
+.trend svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.tip{position:absolute;top:0;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.12);min-width:170px;z-index:2}
+.tip b{display:block;font-weight:600;margin-bottom:4px}
+.tip div{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tip div span{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)}
+.tip i{width:10px;height:3px;border-radius:2px;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:block}
+.empty{padding:18px;color:var(--ink-3);font-size:14px}
+
+/* Dominio */
+.dom{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.dom > div{padding:16px 18px;border-left:1px solid var(--line-2);display:flex;flex-direction:column;gap:10px}
+.dom > div:first-child{border-left:0}
+.dom h3{margin:0;font:500 12px/1 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.kv{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.kv div{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.kv dt,.kv span.k{color:var(--ink-2)}
+.big{font:700 38px/1 var(--display);font-variant-numeric:tabular-nums}
+.big small{font:500 15px var(--body);color:var(--ink-3)}
+.meter{height:8px;border-radius:99px;background:var(--line-2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.bad{color:var(--crit);font-weight:600}
+
+/* Errores */
+.err{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.err > div{padding:16px 18px;border-left:1px solid var(--line-2);display:flex;flex-direction:column;gap:10px;min-width:0}
+.err > div:first-child{border-left:0}
+.err h3{margin:0;font:500 12px/1 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;align-items:end;height:34px}
+.bars i{display:block;background:var(--ok-soft);border-radius:2px;min-height:3px}
+.bars i.has{background:var(--crit)}
+.bars-cap{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3)}
+.msgs{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink-2)}
+.msgs div{border-left:2px solid var(--crit);padding-left:8px;overflow-wrap:anywhere}
+.msgs span{display:block;color:var(--ink-3);font-size:11px}
+.good{color:var(--ok);font-size:13px;font-weight:500}
+.na{color:var(--ink-3);font-size:13px}
+@media (max-width:860px){ .err{grid-template-columns:repeat(2,minmax(0,1fr))} .err > div:nth-child(3){border-left:0} .err > div:nth-child(n+3){border-top:1px solid var(--line-2)} }
+@media (max-width:640px){ .err{grid-template-columns:1fr} .err > div{border-left:0;border-top:1px solid var(--line-2)} .err > div:first-child{border-top:0} }
+
+/* Pipelines */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font:500 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:10px 18px;background:var(--ground)}
+td{padding:11px 18px;border-top:1px solid var(--line-2);vertical-align:middle}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12.5px;font-weight:600}
+.tag.ok{background:var(--ok-soft);color:var(--ok)} .tag.crit{background:var(--crit-soft);color:var(--crit)} .tag.warn{background:var(--warn-soft);color:var(--warn)}
+.scroll{overflow-x:auto}
+
+footer{font-size:13px;color:var(--ink-3);display:flex;flex-direction:column;gap:6px}
+footer p{margin:0;max-width:78ch}
+
+@media (max-width:860px){
+  .dom{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dom > div:nth-child(3){border-left:0}
+  .dom > div:nth-child(n+3){border-top:1px solid var(--line-2)}
+}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  .svc{grid-template-columns:1fr auto auto;gap:10px 16px}
+  .svc .strip-cell{grid-column:1 / -1}
+  .svc-head{display:none}
+  .dom{grid-template-columns:1fr}
+  .dom > div{border-left:0;border-top:1px solid var(--line-2)}
+  .dom > div:first-child{border-top:0}
+}
+@media (prefers-reduced-motion:no-preference){ .dot.ok{animation:pulse 2.4s ease-in-out infinite} }
+@keyframes pulse{50%{box-shadow:0 0 0 7px var(--ok-soft)}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Grupo 6 · Emergencias y Seguridad</div>
+      <h1>Sanidad de CityPass+ Emergencias</h1>
+    </div>
+    <div class="state">
+      <span class="pill" id="overall"><i></i><span>Cargando datos…</span></span>
+      <span class="fresh" id="fresh"></span>
+    </div>
+  </header>
+
+  <div class="notice" id="notice" hidden></div>
+
+  <section class="panel" aria-labelledby="h-svc">
+    <div class="panel-h"><h2 id="h-svc">Servicios en producción</h2><small>Latencia del último chequeo · 30 días: mediciones de este monitor y de Better Stack; los días previos, reconstruidos de deploys de Render, keep-warm y bitácora</small></div>
+    <div class="svc svc-head eyebrow"><span>Servicio</span><span>Latencia</span><span>Uptime</span><span>Últimos 30 días</span></div>
+    <div id="services"><div class="empty">Esperando el primer snapshot…</div></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-trend">
+    <div class="panel-h"><h2 id="h-trend">Latencia entre actualizaciones</h2><small id="trend-cap">ms · mediana de 3 pedidos por chequeo · últimos 7 días de este monitor</small></div>
+    <div id="trend"><div class="empty">Hace falta más de una actualización para dibujar la tendencia.</div></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-dom">
+    <div class="panel-h"><h2 id="h-dom">Salud del dominio</h2><small>Leído de la API de prod con el dispatcher de demo</small></div>
+    <div class="dom" id="domain"><div class="empty">Sin datos todavía.</div></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-err">
+    <div class="panel-h"><h2 id="h-err">Errores</h2><small>Logs de error de Render (7 días) · chequeos de hoy · outbox · CI en main (7 días)</small></div>
+    <div class="err" id="errors"><div class="empty">Sin datos todavía.</div></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-pipe">
+    <div class="panel-h"><h2 id="h-pipe">Últimos pipelines en main</h2><small>GitHub Actions · el deploy dispara el hook de Render</small></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Repo</th><th>Pipeline</th><th>Resultado</th><th>Cuándo</th><th>Run</th></tr></thead>
+      <tbody id="pipes"><tr><td colspan="5" class="empty">Sin datos todavía.</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    <p>Generado por GitHub Actions (<a href="https://github.com/G6D2/sanidad" target="_blank" rel="noopener">G6D2/sanidad</a>) cada 15 minutos en horario de clase y demos, o a mano desde el workflow. Solo lecturas; la página se actualiza sola cada minuto.</p>
+    <p>Backend y frontend corren en el plan free de Render (750 h/mes compartidas), por eso no se chequean las 24 h. Monitoreo continuo: <a href="https://citypass-emergencias-g6.betteruptime.com" target="_blank" rel="noopener">status page de Better Stack</a>.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const COLORS = {api:"var(--accent)", bff:"var(--ok)", web:"var(--warn)", backup:"var(--ink-3)"};
+  const SHORT = {api:"API principal", bff:"Front → API", web:"Frontend", backup:"API backup"};
+  const STATUS_LABEL = {operational:"operativo", downtime:"caído", degraded:"degradado", maintenance:"mantenimiento", not_monitored:"sin monitoreo", paused:"pausado", no_data:"sin datos", not_created:"no existía"};
+  let latest = null, samples = [], history = [];
+
+  function ago(iso){
+    if(!iso) return "—";
+    const m = Math.round((Date.now() - new Date(iso).getTime())/60000);
+    if (m < 1) return "recién";
+    if (m < 60) return "hace " + m + " min";
+    const h = Math.round(m/60);
+    if (h < 48) return "hace " + h + " h";
+    return "hace " + Math.round(h/24) + " días";
+  }
+  const latClass = ms => ms == null ? "" : ms < 800 ? "ok" : ms < 1500 ? "warn" : "crit";
+  const svcState = s => !s.checkOk ? "crit" : (s.monitor && s.monitor.status === "downtime") ? "crit" : (s.monitor && s.monitor.status === "degraded") || latClass(s.latencyMs) === "warn" ? "warn" : "ok";
+
+  function renderHeader(){
+    const pill = $("overall"), fresh = $("fresh");
+    if(!latest){ return; }
+    const states = latest.services.map(svcState);
+    const worst = states.includes("crit") ? "crit" : states.includes("warn") ? "warn" : "ok";
+    const label = {ok:"Todo operativo", warn:"Degradado", crit:"Hay servicios caídos"}[worst];
+    pill.className = "pill " + worst;
+    pill.querySelector("span").textContent = label;
+    const mins = (Date.now() - new Date(latest.generatedAt).getTime())/60000;
+    fresh.textContent = "Datos " + ago(latest.generatedAt) + " · " + new Date(latest.generatedAt).toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+    fresh.classList.toggle("stale", mins > 60);
+    const n = $("notice");
+    if (mins > 60){ n.hidden = false; n.className = "notice warn"; n.textContent = "Estos datos tienen más de una hora: fuera del horario de monitoreo (jueves de clase y demos) el chequeo no corre. Para forzar uno, ejecutá el workflow «Chequeo de salud» en GitHub."; }
+    else n.hidden = true;
+  }
+
+  function renderServices(){
+    if(!latest) return;
+    $("services").innerHTML = latest.services.map(s => {
+      const st = svcState(s), m = s.monitor || {};
+      const hist = (m.history || []).slice(-30);
+      const pad = Array.from({length: 30 - hist.length}, () => '<i title="sin datos"></i>').join("");
+      const cells = pad + hist.map(h => {
+        const cls = h.down > 0 ? "downtime" : h.s;
+        const dia = new Date(h.d + "T12:00:00").toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit"});
+        return `<i class="${esc(cls)}" title="${esc(dia)} · ${esc(STATUS_LABEL[cls] || cls)}${h.src ? " — " + esc(h.src) : ""}"></i>`;
+      }).join("");
+      const existed = hist.filter(h => h.s !== "not_created");
+      const withEv = existed.filter(h => h.s === "operational" || h.s === "degraded" || h.s === "downtime");
+      const okDays = existed.filter(h => h.s === "operational").length;
+      const avail = withEv.length ? Math.round(okDays / withEv.length * 100) : "—";
+      return `<div class="svc">
+        <div class="svc-name"><span class="dot ${st}" aria-hidden="true"></span><div><b>${esc(s.name)}</b><span class="mono">${esc(s.url.replace("https://",""))}</span><span>Valida: <span class="mono" style="display:inline">${esc(s.check)}</span> · HTTP ${esc(s.httpCode)}</span></div></div>
+        <div><span class="num ${latClass(s.latencyMs)}">${esc(s.latencyMs)}<small>ms</small></span><span class="sub">máx ${esc(s.latencyMaxMs)} ms</span></div>
+        <div><span class="num">${esc(avail)}<small>%</small></span><span class="sub">${okDays} de ${withEv.length} días medidos</span></div>
+        <div class="strip-cell"><div class="strip" role="img" aria-label="Estado diario de los últimos 30 días">${cells}</div><div class="strip-cap"><span>hace 30 días</span><span>hoy</span></div></div>
+      </div>`;
+    }).join("") + `<div class="strip-legend"><span><i style="background:var(--ok)"></i>operativo</span><span><i style="background:var(--warn)"></i>degradado</span><span><i style="background:var(--crit)"></i>caído</span><span><i style="background:var(--idle-soft);box-shadow:inset 0 0 0 1px var(--line)"></i>sin datos (plan free, dormido)</span><span><i style="box-shadow:inset 0 0 0 1px var(--line-2)"></i>no existía</span><span>· Pasá el mouse por cada día para ver la evidencia.</span></div>`;
+  }
+
+  function renderTrend(){
+    const box = $("trend");
+    const live = samples.slice().sort((a,b) => a.at < b.at ? -1 : 1);
+    const cut = live.length ? live[0].at : "9999";
+    const desde = new Date(Date.now() - 48 * 3600 * 1000);
+    const pts = live.filter(p => new Date(p.at) >= desde);
+    if (pts.length < 2){ box.innerHTML = '<div class="empty">Hay ' + pts.length + ' actualización guardada. Con la próxima se dibuja la tendencia de latencia.</div>'; return; }
+    const W = 1000, H = 220, L = 48, R = 16, T = 14, B = 30;
+    const keys = ["api","bff","web","backup"];
+    const vals = pts.flatMap(p => keys.map(k => p[k]).filter(v => typeof v === "number"));
+    const max = Math.max(500, Math.ceil(Math.max(...vals) / 250) * 250);
+    const t0 = new Date(pts[0].at).getTime(), t1 = new Date(pts[pts.length-1].at).getTime();
+    const x = t => L + (t1 === t0 ? 0 : (new Date(t).getTime() - t0) / (t1 - t0)) * (W - L - R);
+    const y = v => T + (1 - v / max) * (H - T - B);
+    const ticks = [0, max/2, max];
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Latencia por servicio entre actualizaciones">`;
+    svg += ticks.map(v => `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace">${v}</text>`).join("");
+    const fmt = t => new Date(t).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    svg += `<text x="${L}" y="${H-8}" font-size="12" fill="var(--ink-3)" font-family="IBM Plex Sans, sans-serif">${esc(fmt(pts[0].at))}</text><text x="${W-R}" y="${H-8}" text-anchor="end" font-size="12" fill="var(--ink-3)" font-family="IBM Plex Sans, sans-serif">${esc(fmt(pts[pts.length-1].at))}</text>`;
+    keys.forEach(k => {
+      const series = pts.filter(p => typeof p[k] === "number");
+      if (!series.length) return;
+      const d = series.map((p,i) => (i ? "L" : "M") + x(p.at).toFixed(1) + " " + y(p[k]).toFixed(1)).join(" ");
+      const last = series[series.length-1];
+      svg += `<path d="${d}" fill="none" stroke="${COLORS[k]}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>` + (pts.length > 120 ? "" : series.map(p => `<circle cx="${x(p.at).toFixed(1)}" cy="${y(p[k]).toFixed(1)}" r="2.5" fill="${COLORS[k]}"/>`).join("")) + `<circle cx="${x(last.at)}" cy="${y(last[k])}" r="4" fill="${COLORS[k]}"/>`;
+    });
+    // Capa de hover: línea guía y marcadores del punto más cercano
+    svg += `<g id="hover" visibility="hidden"><line id="hv-line" y1="${T}" y2="${H-B}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3"/>${keys.map(k => `<circle id="hv-${k}" r="5" fill="var(--panel)" stroke="${COLORS[k]}" stroke-width="2.5"/>`).join("")}</g>`;
+    svg += `<rect id="hv-area" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent" style="cursor:crosshair"/>`;
+    svg += "</svg>";
+    box.innerHTML = `<div class="trend"><div class="plot">${svg}<div class="tip" id="tip" hidden></div></div><div class="legend">${keys.map(k => `<span><i style="background:${COLORS[k]}"></i>${SHORT[k]}</span>`).join("")}</div></div>`;
+
+    const svgEl = box.querySelector("svg"), area = box.querySelector("#hv-area"), g = box.querySelector("#hover"), tip = box.querySelector("#tip"), plot = box.querySelector(".plot");
+    const fmtFull = t => new Date(t).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    function show(ev){
+      const r = svgEl.getBoundingClientRect();
+      const vx = (ev.clientX - r.left) * (W / r.width);
+      let best = pts[0], bd = Infinity;
+      for (const p of pts){ const d = Math.abs(x(p.at) - vx); if (d < bd){ bd = d; best = p; } }
+      const px = x(best.at);
+      g.setAttribute("visibility","visible");
+      const ln = box.querySelector("#hv-line"); ln.setAttribute("x1", px); ln.setAttribute("x2", px);
+      keys.forEach(k => { const c = box.querySelector("#hv-" + k); if (typeof best[k] === "number"){ c.setAttribute("cx", px); c.setAttribute("cy", y(best[k])); c.setAttribute("visibility","visible"); } else c.setAttribute("visibility","hidden"); });
+      tip.innerHTML = `<b>${esc(fmtFull(best.at))}</b>` + keys.map(k => `<div><span><i style="background:${COLORS[k]}"></i>${SHORT[k]}</span><span class="mono">${typeof best[k] === "number" ? esc(best[k]) + " ms" : "—"}</span></div>`).join("");
+      tip.hidden = false;
+      const left = px * (r.width / W), tw = tip.offsetWidth;
+      tip.style.left = Math.max(0, Math.min(left + 12 + tw > r.width ? left - tw - 12 : left + 12, r.width - tw)) + "px";
+    }
+    function hide(){ g.setAttribute("visibility","hidden"); tip.hidden = true; }
+    area.addEventListener("pointermove", show);
+    area.addEventListener("pointerdown", show);
+    area.addEventListener("pointerleave", hide);
+  }
+
+  function renderDomain(){
+    if(!latest || !latest.domain) return;
+    const d = latest.domain, e = d.emergencies || {}, o = d.officers || {}, i = d.incidents || {}, ob = d.outbox || {};
+    const active = (e.PENDING||0) + (e.VALIDATED||0) + (e.DISPATCHED||0);
+    const pctFree = o.total ? Math.round((o.available / o.total) * 100) : 0;
+    $("domain").innerHTML = `
+      <div><h3>Emergencias activas</h3><span class="big">${active}<small> de ${esc(e.total)}</small></span>
+        <dl class="kv"><div><dt>Pendientes de validar</dt><dd class="mono">${esc(e.PENDING)}</dd></div><div><dt>Validadas</dt><dd class="mono">${esc(e.VALIDATED)}</dd></div><div><dt>Despachadas</dt><dd class="mono">${esc(e.DISPATCHED)}</dd></div></dl></div>
+      <div><h3>Oficiales</h3><span class="big">${esc(o.available)}<small> libres de ${esc(o.total)}</small></span>
+        <div class="meter" role="img" aria-label="${pctFree}% de oficiales libres"><i style="width:${pctFree}%;${pctFree < 30 ? "background:var(--crit)" : pctFree < 60 ? "background:var(--warn)" : ""}"></i></div>
+        <dl class="kv"><div><dt>Ocupados</dt><dd class="mono">${esc(o.busy)}</dd></div></dl></div>
+      <div><h3>Motor de incidentes</h3><span class="big">${esc(i.total)}<small> incidentes</small></span>
+        <dl class="kv"><div><dt>Último</dt><dd>${esc(ago(i.lastAt))}</dd></div><div><dt>Algoritmo</dt><dd class="mono">${esc(i.algorithm || "—")}</dd></div></dl></div>
+      <div><h3>Outbox de eventos</h3><span class="big ${ob.FAILED ? "bad" : ""}">${esc(ob.FAILED)}<small> fallidos</small></span>
+        <dl class="kv"><div><dt>Pendientes</dt><dd class="mono">${esc(ob.PENDING)}</dd></div><div><dt>Procesando</dt><dd class="mono">${esc(ob.PROCESSING)}</dd></div><div><dt>Publicados</dt><dd class="mono">${esc(ob.PUBLISHED)}</dd></div></dl></div>`;
+  }
+
+  function renderPipes(){
+    if(!latest || !latest.pipelines) return;
+    $("pipes").innerHTML = latest.pipelines.map(p => {
+      const c = p.conclusion === "success" ? "ok" : p.conclusion === "failure" ? "crit" : "warn";
+      const label = {success:"verde", failure:"rojo", cancelled:"cancelado", in_progress:"corriendo"}[p.conclusion] || p.conclusion;
+      return `<tr><td>${esc(p.repo)}</td><td>${esc(p.kind)}</td><td><span class="tag ${c}">${esc(label)}</span></td><td>${esc(ago(p.at))}</td><td><a href="${esc(p.url)}" target="_blank" rel="noopener">ver run</a></td></tr>`;
+    }).join("");
+  }
+
+  function renderErrors(){
+    const box = $("errors"); const E = latest && latest.errors;
+    if (!E){ box.innerHTML = '<div class="empty">Todavía no hay datos de errores en este snapshot.</div>'; return; }
+    const na = x => x && x.error ? `<span class="na">${esc(x.error)}</span>` : null;
+    const dias = Array.from({length:7}, (_,i) => { const d = new Date(); d.setDate(d.getDate() - 6 + i); return d.toLocaleDateString("sv-SE"); });
+    function logsBlock(){
+      const L = E.renderLogs; if (!L) return '<span class="na">—</span>'; const n = na(L); if (n) return n;
+      return ["back","front"].map(k => {
+        const x = L[k] || {porDia:{}, total7d:0, ultimos:[]};
+        const max = Math.max(1, ...dias.map(d => x.porDia[d] || 0));
+        const bars = dias.map(d => { const v = x.porDia[d] || 0; return `<i class="${v ? "has" : ""}" style="height:${v ? Math.max(20, v / max * 100) : 10}%" title="${esc(d)}: ${v} errores"></i>`; }).join("");
+        const msgs = x.ultimos.length ? `<div class="msgs">${x.ultimos.map(m => `<div>${esc(m.msg)}<span>${esc(ago(m.at))}</span></div>`).join("")}</div>` : "";
+        return `<div><dl class="kv"><div><dt>${k === "back" ? "Backend" : "Frontend"}</dt><dd class="mono ${x.total7d ? "bad" : ""}">${x.total7d}${x.masDe100 ? "+" : ""}</dd></div></dl><div class="bars">${bars}</div>${msgs}</div>`;
+      }).join("") + `<div class="bars-cap"><span>hace 7 días</span><span>hoy</span></div>`;
+    }
+    function chequeosBlock(){
+      const C = E.chequeos; const n = na(C); if (n) return n;
+      const tot = Object.values(C).reduce((a,x) => a + x.fallidos, 0);
+      return `<span class="big ${tot ? "bad" : ""}">${tot}<small> fallidos hoy</small></span><dl class="kv">${["api","bff","web","backup"].map(k => `<div><dt>${SHORT[k]}</dt><dd class="mono">${C[k] ? `${C[k].fallidos} / ${C[k].total}` : "—"}</dd></div>`).join("")}</dl>`;
+    }
+    function outboxBlock(){
+      const O = E.outbox; const n = na(O); if (n) return n;
+      const msgs = O.ultimos.length ? `<div class="msgs">${O.ultimos.map(m => `<div>${esc(m.topic)}: ${esc(m.error || "sin detalle")}<span>${esc(ago(m.at))}</span></div>`).join("")}</div>` : '<span class="good">Sin eventos fallidos</span>';
+      return `<span class="big ${O.fallidos ? "bad" : ""}">${O.fallidos}<small> fallidos</small></span>${msgs}`;
+    }
+    function ciBlock(){
+      const C = E.ci; const n = na(C); if (n) return n;
+      return `<dl class="kv">${C.map(r => `<div><dt>${esc(r.repo)}</dt><dd class="mono ${r.rojos ? "bad" : ""}">${r.rojos} de ${r.total}</dd></div>`).join("")}</dl>` +
+        (C.some(r => r.ultimoRojo) ? `<div class="msgs">${C.filter(r => r.ultimoRojo).map(r => `<div><a href="${esc(r.ultimoRojo.url)}" target="_blank" rel="noopener">${esc(r.repo)}: ${esc(r.ultimoRojo.title)}</a><span>${esc(ago(r.ultimoRojo.at))}</span></div>`).join("")}</div>` : '<span class="good">Sin pipelines en rojo</span>');
+    }
+    box.innerHTML = `<div><h3>Logs de error</h3>${logsBlock()}</div><div><h3>Chequeos de salud</h3>${chequeosBlock()}</div><div><h3>Outbox</h3>${outboxBlock()}</div><div><h3>CI / CD en rojo (7 días)</h3>${ciBlock()}</div>`;
+  }
+
+  function renderAll(){ renderHeader(); renderServices(); renderTrend(); renderDomain(); renderErrors(); renderPipes(); }
+  setInterval(renderHeader, 60000);
+
+  async function start(){
+    try {
+      const r = await fetch("data.json?t=" + Date.now(), {cache: "no-store"});
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      latest = await r.json();
+      samples = latest.historyPoints || [];
+      renderAll();
+    } catch (e) {
+      const n = $("notice"); n.hidden = false;
+      n.textContent = "No se pudieron cargar los datos (" + e.message + "). Reintentando en un minuto.";
+    }
+  }
+  setInterval(start, 60000);
+  start();
+})();
+</script>
+</body>
+</html>

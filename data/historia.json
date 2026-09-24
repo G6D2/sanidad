@@ -1,0 +1,474 @@
+{
+ "api": {
+  "2026-08-26": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-27": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-28": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-29": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-30": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-31": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-01": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-02": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-03": {
+   "s": "degraded",
+   "src": "POST de pánico y cancelar respondían 503 con Kafka apagado (fix backend #12)"
+  },
+  "2026-09-04": {
+   "s": "degraded",
+   "src": "POST de pánico y cancelar respondían 503 con Kafka apagado (fix backend #12)"
+  },
+  "2026-09-05": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-06": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-07": {
+   "s": "degraded",
+   "src": "503 en pánico y cancelar observado en prod; fix backend #12 ese día"
+  },
+  "2026-09-08": {
+   "s": "degraded",
+   "src": "desde las 20 h el listado del dispatcher daba 500 (filas cifradas con otra clave)"
+  },
+  "2026-09-09": {
+   "s": "degraded",
+   "src": "listado del dispatcher con 500 hasta el fix (backend #19)"
+  },
+  "2026-09-10": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; keep-warm: /health HTTP 200"
+  },
+  "2026-09-11": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; keep-warm: /health HTTP 200"
+  },
+  "2026-09-12": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-13": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-14": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-15": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-16": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-17": {
+   "s": "operational",
+   "src": "keep-warm: /health HTTP 200"
+  },
+  "2026-09-18": {
+   "s": "operational",
+   "src": "keep-warm: /health HTTP 200"
+  },
+  "2026-09-19": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-20": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-21": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; verificado en prod (sesión de trabajo)"
+  },
+  "2026-09-22": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-23": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; regresión total contra prod"
+  }
+ },
+ "web": {
+  "2026-08-26": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-27": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-28": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-29": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-30": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-31": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-01": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-02": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-03": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-04": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-05": {
+   "s": "operational",
+   "src": "deploy de Render en vivo (un deploy falló, siguió el anterior)"
+  },
+  "2026-09-06": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-07": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-08": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-09": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-10": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; keep-warm: /api/warmup HTTP 200"
+  },
+  "2026-09-11": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; keep-warm: /api/warmup HTTP 200"
+  },
+  "2026-09-12": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-13": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-14": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-15": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-16": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-17": {
+   "s": "operational",
+   "src": "keep-warm: /api/warmup HTTP 200"
+  },
+  "2026-09-18": {
+   "s": "operational",
+   "src": "keep-warm: /api/warmup HTTP 200"
+  },
+  "2026-09-19": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-20": {
+   "s": "no_data",
+   "src": "sin chequeos ese día (plan free, servicio dormido)"
+  },
+  "2026-09-21": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; verificado en prod (sesión de trabajo)"
+  },
+  "2026-09-22": {
+   "s": "operational",
+   "src": "deploy de Render en vivo"
+  },
+  "2026-09-23": {
+   "s": "operational",
+   "src": "deploy de Render en vivo; regresión total contra prod"
+  }
+ },
+ "bff": {
+  "2026-08-26": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-27": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-28": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-29": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-30": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-08-31": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-01": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-02": {
+   "s": "not_created",
+   "src": "el servicio todavía no existía en Render"
+  },
+  "2026-09-03": {
+   "s": "degraded",
+   "src": "POST de pánico y cancelar respondían 503 con Kafka apagado (fix backend #12)"
+  },
+  "2026-09-04": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-05": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-06": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-07": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-08": {
+   "s": "degraded",
+   "src": "desde las 20 h el listado del dispatcher daba 500 (filas cifradas con otra clave)"
+  },
+  "2026-09-09": {
+   "s": "degraded",
+   "src": "listado del dispatcher con 500 hasta el fix (backend #19)"
+  },
+  "2026-09-10": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-11": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-12": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-13": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-14": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-15": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-16": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-17": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-18": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-19": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-20": {
+   "s": "no_data",
+   "src": "sin evidencia de los dos servicios ese día"
+  },
+  "2026-09-21": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-22": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  },
+  "2026-09-23": {
+   "s": "operational",
+   "src": "front y API con evidencia ese día"
+  }
+ },
+ "backup": {
+  "2026-08-26": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-08-27": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-08-28": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-08-29": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-08-30": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-08-31": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-01": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-02": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-03": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-04": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-05": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-06": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-07": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-08": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-09": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-10": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-11": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-12": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-13": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-14": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-15": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-16": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-17": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-18": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-19": {
+   "s": "not_created",
+   "src": "el backup todavía no existía"
+  },
+  "2026-09-20": {
+   "s": "operational",
+   "src": "verificado al crearlo: descifra ubicaciones contra Neon"
+  },
+  "2026-09-21": {
+   "s": "no_data",
+   "src": "sin chequeos ese día"
+  },
+  "2026-09-22": {
+   "s": "no_data",
+   "src": "sin chequeos ese día"
+  },
+  "2026-09-23": {
+   "s": "no_data",
+   "src": "sin chequeos ese día"
+  }
+ }
+}

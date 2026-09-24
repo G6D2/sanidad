@@ -1,0 +1,57 @@
+name: Chequeo de salud
+
+# Cada 15 minutos en la ventana de clase (jueves 17:00–23:59 ART = jue 20:00 – vie 02:59 UTC).
+# Fuera de esa ventana no corre para no gastar las 750 h/mes del plan free de Render:
+# para una demo, ejecutarlo a mano desde Actions → "Chequeo de salud" → Run workflow.
+# Los crons de GitHub son "best effort": pueden atrasarse unos minutos.
+on:
+  schedule:
+    - cron: '7,22,37,52 20-23 * * 4'
+    - cron: '7,22,37,52 0-2 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commitear data/history.json
+  pages: write
+  id-token: write
+
+concurrency:
+  group: chequeo
+  cancel-in-progress: false
+
+jobs:
+  chequeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recolectar
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          GH_READ_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+        run: python scripts/collect.py
+
+      - name: Guardar historial
+        run: |
+          git config user.name "sanidad-bot"
+          git config user.email "sanidad-bot@users.noreply.github.com"
+          git add data/history.json
+          git diff --cached --quiet || git commit -m "chore: historial de chequeos $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
