@@ -26,7 +26,7 @@ La franja de 30 días usa, en este orden:
 2. Better Stack.
 3. `data/historia.json`: días anteriores reconstruidos con evidencia real (deploys de Render, keep-warm de GitHub Actions y bitácora del equipo). Cada día indica su fuente al pasar el mouse.
 
-**Cuándo corre:** cada 5 minutos, todo el día (y a mano desde **Actions → Chequeo de salud → Run workflow**). Cada chequeo despierta backend y frontend, que están en el plan free de Render (750 h/mes compartidas): si hace falta ahorrar horas, volver a una ventana acotada en el cron.
+**Cuándo corre:** cada 5 minutos, todo el día, encadenándose solo (y a mano desde **Actions → Chequeo de salud → Run workflow**). Cada chequeo despierta backend y frontend, que están en el plan free de Render (750 h/mes compartidas): si hace falta ahorrar horas, volver a una ventana acotada en el cron.
 
 ## Secrets (opcionales)
 

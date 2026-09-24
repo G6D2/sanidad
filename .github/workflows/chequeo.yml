@@ -1,8 +1,14 @@
 name: Chequeo de salud
 
-# Cada 5 minutos (el mínimo que permite GitHub), todo el día. Ojo: cada chequeo despierta backend y frontend en Render
-# (plan free, 750 h/mes compartidas); para volver a la ventana de clase, restaurar el cron de jueves.
-# Los crons de GitHub son "best effort": pueden atrasarse unos minutos.
+# Cada 5 minutos, todo el día. Ojo: cada chequeo despierta backend y frontend en Render
+# (plan free, 750 h/mes compartidas).
+#
+# Los crons de GitHub son "best effort" y en esta org directamente no disparan (el 24/09
+# no corrió ni uno). Por eso el workflow se encadena solo: al terminar, el job `siguiente`
+# espera hasta completar 5 minutos desde el arranque y se relanza con workflow_dispatch.
+# El cron queda solo como respaldo para rearrancar la cadena si se corta.
+# Para arrancarla: Actions → Chequeo de salud → Run workflow.
+# Para frenarla: Actions → Chequeo de salud → "Disable workflow".
 on:
   schedule:
     - cron: '2-59/5 * * * *'
@@ -10,6 +16,7 @@ on:
 
 permissions:
   contents: write   # commitear data/history.json
+  actions: write    # relanzar este workflow (job `siguiente`)
   pages: write
   id-token: write
 
@@ -53,3 +60,29 @@ jobs:
 
       - id: deploy
         uses: actions/deploy-pages@v4
+
+  siguiente:
+    needs: chequeo
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Esperar hasta completar 5 minutos desde el arranque
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          INICIO=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }} -q .run_started_at)
+          start=$(date -d "$INICIO" +%s); now=$(date +%s)
+          wait=$(( 300 - (now - start) ))
+          echo "Arrancó $INICIO; espero ${wait}s"
+          [ "$wait" -gt 0 ] && sleep "$wait" || true
+
+      - name: Relanzar (si no hay otra corrida en cola)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          otras=$(gh run list --workflow chequeo.yml --limit 20 --json databaseId,status \
+            -q "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status != \"completed\")] | length")
+          if [ "$otras" -gt 0 ]; then echo "Ya hay $otras corrida(s) activas o en cola; no relanzo."; exit 0; fi
+          gh workflow run chequeo.yml --ref main
